@@ -43,18 +43,12 @@
         <!--顶部轮播-->
         <div class="swiper-container swiper-banner">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <a href="../mall/templates/product_detail.html"><img src="/static/upload/ban1.jpg"/></a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="../mall/templates/product_list.html"><img src="/static/upload/ban2.jpg"/></a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="../mall/templates/product_detail.html"><img src="/static/upload/ban3.jpg"/></a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="../mall/templates/product_list.html"><img src="/static/upload/ban4.jpg"/></a>
-                </div>
+                {% for slider in slider_list %}
+                    <div class="swiper-slide">
+                        <a href="{{ slider.target_url }}">
+                            <img src="{{ slider.img }}"/></a>
+                    </div>
+                {% endfor %}
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -94,14 +88,13 @@
             <i class="news-icon-laba"></i>
             <div class="swiper-container swiper-news">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="../system/templates/news_info.html"
-                        >热烈庆祝积分商城正式上线</a
-                        >
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="../system/templates/news_info.html">蓝之蓝股份成公司上市</a>
-                    </div>
+                    {% for item in news_list %}
+                        <div class="swiper-slide">
+                            <a href="../system/templates/news_info.html"
+                            >{{ item.title }}</a
+                            >
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -286,7 +279,7 @@
         </div>
     </div>
     {# 包含底部的html模块 #}
-    {% include 'footer.html'%}
+    {% include 'footer.html' %}
 {% endblock %}
 {% block footer %}
     <script src="/static/js/swiper.js"></script>
