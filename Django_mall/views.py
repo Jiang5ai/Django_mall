@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from datetime import datetime
 
 from system.models import Slider, News

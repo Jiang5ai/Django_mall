@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     # 商品部分
     url(r'mall/', include(('mall.urls', 'mall'), namespace='mall')),
+    url(r'sys/', include(('system.urls', 'system'), namespace='system')),
 ]
