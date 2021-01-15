@@ -22,7 +22,7 @@ class UserProfile(models.Model):
         (1, '男'),
         (0, '女')
     )
-    user = models.OneToOneField(User, on_delete=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     real_name = models.CharField('真实姓名', max_length=32)
     email = models.CharField('电子邮箱', max_length=128, null=True, blank=True)
     is_email_valid = models.BooleanField('邮箱是否已验证', default=False)
@@ -40,7 +40,7 @@ class UserProfile(models.Model):
 
 class UserAddress(models.Model):
     """用户地址信息"""
-    user = models.ForeignKey(User, related_name='user_address', on_delete=False)
+    user = models.ForeignKey(User, related_name='user_address', on_delete=models.CASCADE)
     province = models.CharField('省份', max_length=32)
     city = models.CharField('市区', max_length=32)
     area = models.CharField('区域', max_length=32)
@@ -63,7 +63,7 @@ class UserAddress(models.Model):
 
 class LoginRecord(models.Model):
     """用户登录历史"""
-    user = models.ForeignKey(User, on_delete=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     username = models.CharField('登录账号', max_length=64)
     ip = models.CharField('IP ', max_length=32)
     address = models.CharField('地址', max_length=32, null=True, blank=True)
