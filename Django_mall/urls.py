@@ -15,13 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
+import debug_toolbar
 
 from Django_mall import views
 
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
-    # 商品部分
-    url(r'mall/', include(('mall.urls', 'mall'), namespace='mall')),
-    url(r'sys/', include(('system.urls', 'system'), namespace='system')),
-]
+if settings.DEBUG:
+    urlpatterns = [
+        url(r'^admin/', admin.site.urls),
+        url(r'^$', views.index, name='index'),
+        # 商品部分
+        url(r'mall/', include(('mall.urls', 'mall'), namespace='mall')),
+        url(r'sys/', include(('system.urls', 'system'), namespace='system')),
+    ]
+    urlpatterns = [
+                      url(r'^__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
