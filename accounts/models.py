@@ -77,4 +77,6 @@ class LoginRecord(models.Model):
 
 class PasswdChangeLog(models.Model):
     """密码修改记录"""
-    pass
+
+    class Meta:
+        db_table = 'accounts_passwd_change_log'

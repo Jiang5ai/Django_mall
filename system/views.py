@@ -21,6 +21,7 @@ def news_list(request, template_name='news_list.html'):
 
 
 def news_detail(request, pk, template_name='news_info.html'):
+    """新闻详情"""
     new_obj = get_object_or_404(News, pk=pk, is_valid=True)
     # 每查看一次浏览次数加1
     new_obj.view_count = F('view_count') + 1

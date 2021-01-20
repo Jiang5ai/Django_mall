@@ -1,10 +1,45 @@
 import uuid
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 from utils import constants
+from system.models import Imagefile
 
 
 # Create your models here.
+
+class Classify(models.Model):
+    """商品分类"""
+    uid = models.UUIDField('分类ID', default=uuid.uuid4, editable=True)
+    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE)
+    img = models.ImageField('分类主图', upload_to='classify')
+    name = models.CharField('名称', max_length=12)
+    desc = models.CharField('描述', max_length=64, null=True, blank=True)
+    code = models.CharField('编码', max_length=32, null=True, blank=True)
+    reorder = models.SmallIntegerField('排序', default=0)
+    is_valid = models.BooleanField('是否有效', default=True)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)
+    updated_time = models.DateTimeField('修改时间', auto_now=True)
+
+    class Meta:
+        db_table = 'mall_classify'
+        ordering = ['-reorder']
+
+
+class Tag(models.Model):
+    """商品标签"""
+    uid = models.UUIDField('标签ID', default=uuid.uuid4, editable=True)
+    img = models.ImageField('主图', upload_to='tags')
+    name = models.CharField('名称', max_length=12)
+    code = models.CharField('编码', max_length=32, null=True, blank=True)
+    reorder = models.SmallIntegerField('排序', default=0)
+    is_valid = models.BooleanField('是否有效', default=True)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)
+    updated_time = models.DateTimeField('修改时间', auto_now=True)
+
+    class Meta:
+        db_table = 'mall_tag'
+        ordering = ['-reorder']
 
 
 class Product(models.Model):
@@ -30,6 +65,18 @@ class Product(models.Model):
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     updated_time = models.DateTimeField('修改时间', auto_now=True)
 
+    tags = models.ManyToManyField(Tag, verbose_name='标签')
+    classes = models.ManyToManyField(Classify, verbose_name='分类 ')
+
+    banners = GenericRelation(Imagefile, verbose_name='banner图', related_query_name='banners')
+
     class Meta:
-        db_table = 'accounts_user_address'
+        db_table = 'mall_product'
         ordering = ['-reorder']
+
+
+class Comments(models.Model):
+    """商品评价"""
+
+    class Meta:
+        db_table = 'mall_comments'

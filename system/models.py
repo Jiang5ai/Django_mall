@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 from utils import constants
 
@@ -42,3 +44,19 @@ class News(CommonUtils):
     class Meta:
         db_table = 'system_news'
         ordering = ['-reorder']
+
+
+class Imagefile(models.Model):
+    """图片表"""
+    img = models.ImageField('图片', upload_to='%Y%m/images/')
+    summary = models.CharField('图片名称', max_length=200)
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    is_valid = models.BooleanField('是否有效', default=True)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)
+    updated_time = models.DateTimeField('修改时间', auto_now=True)
+
+    class Meta:
+        db_table = 'system_images'
