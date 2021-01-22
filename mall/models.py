@@ -4,6 +4,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from utils import constants
 from system.models import Imagefile
+from accounts.models import User
 
 
 # Create your models here.
@@ -75,8 +76,3 @@ class Product(models.Model):
         ordering = ['-reorder']
 
 
-class Comments(models.Model):
-    """商品评价"""
-
-    class Meta:
-        db_table = 'mall_comments'
